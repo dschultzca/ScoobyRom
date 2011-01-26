@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=ScoobyRom
+Terminal=false
+Exec=mono ScoobyRom.exe
+Comment=Subaru ROM tool.

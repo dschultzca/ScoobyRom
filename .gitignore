@@ -1,0 +1,27 @@
+# build dirs
+bin/
+obj/
+
+# Monodevelop binary files
+*.pidb
+
+# Monodevelop project userprefs (not important, last edit position, tabs etc.)
+*.userprefs
+*.sln.cache
+
+# key file for signing
+*.snk
+
+
+# NUnit
+test-results/
+TestResult.xml
+
+# gendarme (code analysis, from mono-tools)
+*_gendarme*
+
+# don't add large data files
+*.xml
+
+# script files (cleanup)
+*.sh

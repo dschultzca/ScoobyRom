@@ -1,0 +1,29 @@
+
+*) Save reminder on exit if data has been modified.
+
+*) XML overwrite warning. Ctrl+S has no file dialog, won't ask, destroying existing foreign file!
+
+*) Table items UI: Add filtering.
+   Current workaround: sort by title, category etc. - click colum header twice after load.
+   That way, already annotated items appear on top of the list.
+
+*) Add UI to modify value formatting (decimal places).
+   There's a little bit of fixed automatic logic in code.
+
+*) Add UI to display/adjust/toggle table record multiplier + offset.
+   Currently not displayed at all, only appear in RR XML export.
+
+*) gnuplot: Investigate using gnuplot variable to set temporary binary file path if possible.
+   That way standard temporary file would work and main plot commands can remain in easy-to-edit template.
+
+*) gnuplot: consider adding more export formats (PDF, EPS, PNG, ...)
+
+*) Table items UI: Remove check mark column if it isn't going to be used in the future.
+
+*) ScoobyRom XML: Automatically set and save table search range.
+
+*) Add UI for ROM info (xmlid) lines. Plus copy & paste via clipboard maybe.
+
+*) Update 2D graph on metadata change automatically - drawing 2D is fast.
+
+*) Add IDC script generation features.

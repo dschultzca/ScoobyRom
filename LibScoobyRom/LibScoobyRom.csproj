@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FA950E69-7715-4732-AAF2-DB1D56816858}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Subaru</RootNamespace>
+    <AssemblyName>LibScoobyRom</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AssemblyOriginatorKeyFile>keypair.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\keypair.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Tables\Extensions.cs" />
+    <Compile Include="Tables\TableType.cs" />
+    <Compile Include="Rom.cs" />
+    <Compile Include="Util\Range.cs" />
+    <Compile Include="Util\BinaryHelper.cs" />
+    <Compile Include="IDA\IdcType.cs" />
+    <Compile Include="Tables\TableTypes.cs" />
+    <Compile Include="Tables\Table.cs" />
+    <Compile Include="Tables\Table2D.cs" />
+    <Compile Include="Tables\Table3D.cs" />
+    <Compile Include="RomChecksumRecord.cs" />
+    <Compile Include="RomChecksumming.cs" />
+    <Compile Include="IDA\IdcScript.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Tables\" />
+    <Folder Include="Util\" />
+    <Folder Include="IDA\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.txt" />
+    <None Include="COPYING.txt" />
+    <None Include="TODO.txt" />
+  </ItemGroup>
+</Project>

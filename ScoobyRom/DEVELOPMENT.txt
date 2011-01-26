@@ -1,0 +1,70 @@
+
+1) Integrated Development Environment (IDE)
+========================================
+
+*)	MonoDevelop
+http://monodevelop.com/
+This one is ideal because it has a good Gtk# user interface designer - saves time.
+Multi-platform, tested on Linux and Windows.
+
+*)	Visual Studio 2010
+Confirmed working.
+http://msdn.microsoft.com/en-us/vstudio/
+Free express versions: http://www.microsoft.com/express/Downloads
+Obviously Windows only, has no Gtk# designer but can compile own + generated Gtk# code.
+VS uses msbuild under the hood.
+
+
+2) Compiling from source without IDE
+====================================
+
+2.1) Mono (Linux)
+*****************
+Mono provides xbuild command line tool.
+Corresponding Linux package might be called "mono-dev" or "mono-devel".
+
+xbuild /property:Configuration=Release ScoobyRom.sln
+
+or
+
+xbuild /property:Configuration=Debug ScoobyRom.sln
+
+or just "xbuild" (defaults to Debug build)
+
+
+2.2) Windows
+************
+Like on Linux, just replace "xbuild" with "msbuild".
+You might need to specify exact path of msbuild.exe.
+
+msbuild /property:Configuration=Release ScoobyRom.sln
+
+
+3) Misc Commments
+=================
+Created on Linux using free open source software!
+
+.) .NET version
+Currently the code needs a .NET 4.0 compatible runtime (Windows .NET, Mono etc.)
+Backporting code and solution/project files to VS 2008 and .NET 3.5 for example is certainly possible.
+Currently there's little code making use of .NET 4.0 features ("Task" is one).
+
+.) Creatibg multi-platform assemblies
+Personally I use .NET on Windows to compile the public binaries as these are multi-platform by default.
+Meaning the EXE runs on both Windows & Linux at least.
+Pretty good feature If you ask me - compile once, copy and run everywhere.
+(Mono on Linux overrides Windows Gtk+ library names stored inside the binaries etc. but not the other way?)
+
+.) Assembly Signing
+Might help for Windows OS security, not entirely sure yet.
+Used my own key, not included of course.
+
+.) Code Formatting
+MonoDevelop "Format Document" has been used. It's not perfect, can make bad long lines.
+
+.) Code
+The main author still considers this software experimental!
+It wasn't clear what features would work upfront, with as little effort as possible.
+Currently there's no unit testing in here, no solid abstraction, code does not follow patterns,
+namespace hierarchy is messy etc.
+
