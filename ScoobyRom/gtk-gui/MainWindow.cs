@@ -37,6 +37,10 @@ public partial class MainWindow
 
 	private global::Gtk.Action visualizationAction;
 
+	private global::Gtk.Action DataAction;
+
+	private global::Gtk.Action ExportTableAsCSVAction;
+
 	private global::Gtk.VBox vbox1;
 
 	private global::Gtk.MenuBar menubar1;
@@ -128,6 +132,12 @@ public partial class MainWindow
 		this.visualizationAction.Sensitive = false;
 		this.visualizationAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Visualization");
 		w1.Add (this.visualizationAction, "<Control>space");
+		this.DataAction = new global::Gtk.Action ("DataAction", global::Mono.Unix.Catalog.GetString ("_Data"), null, null);
+		this.DataAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Data");
+		w1.Add (this.DataAction, null);
+		this.ExportTableAsCSVAction = new global::Gtk.Action ("ExportTableAsCSVAction", global::Mono.Unix.Catalog.GetString ("Export Table as CSV"), null, null);
+		this.ExportTableAsCSVAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Export Table as CSV");
+		w1.Add (this.ExportTableAsCSVAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -139,7 +149,7 @@ public partial class MainWindow
 		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString (@"<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='openAction' action='openAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menu name='exportAsAction' action='exportAsAction'><menuitem name='exportAsRRAction' action='exportAsRRAction'/></menu><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='ViewAction' action='ViewAction'><menuitem name='visualizationAction' action='visualizationAction'/><menuitem name='iconsAction' action='iconsAction'/><menuitem name='checksumWindowAction' action='checksumWindowAction'/><menuitem name='statisticsWindowAction' action='statisticsWindowAction'/></menu><menu name='PlotAction' action='PlotAction'><menuitem name='plotExternalAction' action='plotExternalAction'/><menuitem name='createSVGFileAction' action='createSVGFileAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='openAction' action='openAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menu name='exportAsAction' action='exportAsAction'><menuitem name='exportAsRRAction' action='exportAsRRAction'/></menu><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='ViewAction' action='ViewAction'><menuitem name='visualizationAction' action='visualizationAction'/><menuitem name='iconsAction' action='iconsAction'/><menuitem name='checksumWindowAction' action='checksumWindowAction'/><menuitem name='statisticsWindowAction' action='statisticsWindowAction'/></menu><menu name='PlotAction' action='PlotAction'><menuitem name='plotExternalAction' action='plotExternalAction'/><menuitem name='createSVGFileAction' action='createSVGFileAction'/></menu><menu name='DataAction' action='DataAction'><menuitem name='ExportTableAsCSVAction' action='ExportTableAsCSVAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vbox1.Add (this.menubar1);
@@ -251,6 +261,7 @@ public partial class MainWindow
 		this.statisticsWindowAction.Activated += new global::System.EventHandler (this.OnStatisticsWindowActionActivated);
 		this.createSVGFileAction.Activated += new global::System.EventHandler (this.OnCreateSVGFileActionActivated);
 		this.visualizationAction.Activated += new global::System.EventHandler (this.OnVisualizationAction);
+		this.ExportTableAsCSVAction.Activated += new global::System.EventHandler (this.OnExportTableAsCSVActionActivated);
 		this.notebook1.SwitchPage += new global::Gtk.SwitchPageHandler (this.OnNotebook1SwitchPage);
 	}
 }

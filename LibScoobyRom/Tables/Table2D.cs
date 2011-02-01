@@ -53,8 +53,7 @@ namespace Subaru.Tables
 			s_tableInfo2D.multiplier = stream.ReadSingleBigEndian ();
 			s_tableInfo2D.offset = stream.ReadSingleBigEndian ();
 
-			if (s_tableInfo2D.IsRecordValid ())
-			{
+			if (s_tableInfo2D.IsRecordValid ()) {
 				if (!s_tableInfo2D.hasMAC) {
 					// must back off stream position for next possible struct
 					stream.Seek (-2 * FloatSize, System.IO.SeekOrigin.Current);
@@ -69,8 +68,7 @@ namespace Subaru.Tables
 				stream.Seek (afterRecord, System.IO.SeekOrigin.Begin);
 
 				return valuesOk ? s_tableInfo2D.Copy () : null;
-			}
-			else
+			} else
 				return null;
 		}
 
@@ -136,9 +134,8 @@ namespace Subaru.Tables
 		public override string ToString ()
 		{
 			System.Text.StringBuilder sb = new System.Text.StringBuilder (200);
-			sb.AppendFormat ("[Table2D @ {0:X6} | Count={1} Type={2} | RangeX={3}, RangeY={4} | xMin={5} xMax={6} | yMin={7} yMax={8} yAvg={9}",
-				Location, CountX, TableType.ToStr(), rangeX.ToString(), rangeY.ToString(), Xmin.ToString(), Xmax.ToString(),
-				Ymin.ToString(), Ymax.ToString(), Yavg.ToString());
+			sb.AppendFormat ("[Table2D @ {0:X6} | Count={1} Type={2} | RangeX={3}, RangeY={4} | xMin={5} xMax={6} | yMin={7} yMax={8} yAvg={9}", Location, CountX, TableType.ToStr (), rangeX.ToString (), rangeY.ToString (), Xmin.ToString (), Xmax.ToString (), Ymin.ToString (), Ymax.ToString (),
+			Yavg.ToString ());
 			if (hasMAC) {
 				sb.AppendFormat (" | Multiplier={0}, Offset={1}]", Multiplier, Offset);
 			} else {
@@ -207,18 +204,27 @@ namespace Subaru.Tables
 		public override XElement RRXml ()
 		{
 			// X-axis is being called "Y Axis" in RR!
-			return new XElement ("table",
-				new XAttribute ("type", "2D"),
-				new XAttribute ("name", title),
-				new XAttribute ("category", category),
-				new XAttribute ("storagetype", tableType.ToRRType ()),
-				new XAttribute ("endian", endian),
-				new XAttribute ("sizey", countX.ToString ()),
-				new XAttribute ("storageaddress", HexAddress (rangeY.Pos)),
-				new XComment (ValuesStats (valuesYmin, valuesYmax, valuesYavg)),
-				RRXmlScaling (unitX, Expression, ExpressionBack, "0.000", 0.01f, 0.1f),
-				RRXmlAxis ("Y Axis", nameX, unitX, TableType.Float, rangeX, valuesX),
-				new XElement ("description", description));
+			return new XElement ("table", new XAttribute ("type", "2D"), new XAttribute ("name", title), new XAttribute ("category", category), new XAttribute ("storagetype", tableType.ToRRType ()), new XAttribute ("endian", endian), new XAttribute ("sizey", countX.ToString ()), new XAttribute ("storageaddress", HexAddress (rangeY.Pos)), new XComment (ValuesStats (valuesYmin, valuesYmax, valuesYavg)), RRXmlScaling (unitX, Expression, ExpressionBack, "0.000", 0.01f, 0.1f),
+			RRXmlAxis ("Y Axis", nameX, unitX, TableType.Float, rangeX, valuesX), new XElement ("description", description));
+		}
+
+		public void WriteCSV (System.IO.TextWriter tw)
+		{
+			// assure decimal point is "." so standard delimiter "," can be used
+			System.Globalization.CultureInfo cultureInfo = System.Globalization.CultureInfo.InvariantCulture;
+			const char delimiter = ',';
+
+			// Spreadsheet apps usually recognize first row as axis description
+			tw.Write ("{0} [{1}]", NameX, UnitX);
+			tw.Write (delimiter);
+			tw.WriteLine ("{0} [{1}]", Title, UnitY);
+
+			float[] valuesY = GetValuesYasFloats ();
+			for (int i = 0; i < countX; i++) {
+				tw.Write (valuesX[i].ToString (cultureInfo));
+				tw.Write (delimiter);
+				tw.WriteLine (valuesY[i].ToString (cultureInfo));
+			}
 		}
 	}
 }

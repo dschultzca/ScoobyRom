@@ -121,6 +121,17 @@
         <property name="StockId">gtk-refresh</property>
         <signal name="Activated" handler="OnVisualizationAction" />
       </action>
+      <action id="DataAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Data</property>
+        <property name="ShortLabel" translatable="yes">_Data</property>
+      </action>
+      <action id="ExportTableAsCSVAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Export Table as CSV</property>
+        <property name="ShortLabel" translatable="yes">Export Table as CSV</property>
+        <signal name="Activated" handler="OnExportTableAsCSVActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">ScoobyRom</property>
@@ -154,6 +165,9 @@
               <node type="Menu" action="PlotAction">
                 <node type="Menuitem" action="plotExternalAction" />
                 <node type="Menuitem" action="createSVGFileAction" />
+              </node>
+              <node type="Menu" action="DataAction">
+                <node type="Menuitem" action="ExportTableAsCSVAction" />
               </node>
               <node type="Menu" action="HelpAction">
                 <node type="Menuitem" action="aboutAction" />

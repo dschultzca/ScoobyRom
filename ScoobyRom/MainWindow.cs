@@ -280,7 +280,7 @@ public partial class MainWindow : Gtk.Window
 				"Gtk#\thttp://mono-project.com/GtkSharp",
 				"NPlot\thttp://netcontrols.org/nplot/wiki/",
 				"gnuplot\thttp://www.gnuplot.info/",
-				 },
+				},
 			WrapLicense = true };
 		about.Icon = about.Logo = MainClass.AppIcon;
 		about.Comments = "License: GPL v3";
@@ -439,8 +439,7 @@ public partial class MainWindow : Gtk.Window
 			return;
 
 		GnuPlot gnuPlot = GnuPlot.GetExistingGnuPlot (table);
-		if (gnuPlot == null)
-		{
+		if (gnuPlot == null) {
 			ErrorMsg ("Error creating SVG export", "Need existing gnuplot window. Do a normal plot first.");
 			return;
 		}
@@ -470,14 +469,11 @@ public partial class MainWindow : Gtk.Window
 			}
 			// remember used dir
 			svgDirectory = System.IO.Path.GetDirectoryName (fc.Filename);
-		}
-		catch (GnuPlotException ex) {
+		} catch (GnuPlotException ex) {
 			ErrorMsg ("Error creating SVG file", ex.Message);
-		}
-		catch (System.IO.IOException ex) {
+		} catch (System.IO.IOException ex) {
 			ErrorMsg ("IO Exception", ex.Message);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			// Access to path denied...
 			ErrorMsg ("Error", ex.Message);
 		} finally {
@@ -507,6 +503,67 @@ public partial class MainWindow : Gtk.Window
 
 		var d = new StatisticsWindow (data);
 		d.Show ();
+	}
+
+	void OnExportTableAsCSVActionActivated (object sender, System.EventArgs e)
+	{
+		if (data.RomLoaded == false)
+			return;
+
+		Subaru.Tables.Table table = null;
+		switch (CurrentUI) {
+		case ActiveUI.View2D:
+			table = dataView2DGtk.Selected;
+			break;
+		case ActiveUI.View3D:
+			ErrorMsg ("Error", "Creating CSV for 3D table not implemented yet.");
+			return;
+			//table = dataView3DGtk.Selected;
+			//break;
+		}
+		if (table == null)
+			return;
+
+		string filenameSuggested = string.IsNullOrEmpty (table.Title) ? "table" : table.Title;
+		filenameSuggested += ".csv";
+		// TODO another var to remember export dir
+		if (svgDirectory == null && data.Rom.Path != null)
+			svgDirectory = System.IO.Path.GetDirectoryName (data.Rom.Path);
+
+		var fc = new Gtk.FileChooserDialog ("Export data as CSV file", this, FileChooserAction.Save, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.Save, ResponseType.Accept);
+		try {
+			FileFilter filter = new FileFilter ();
+			filter.Name = "CSV files";
+			filter.AddPattern ("*.csv");
+			fc.AddFilter (filter);
+
+			filter = new FileFilter ();
+			filter.Name = "All files";
+			filter.AddPattern ("*");
+			fc.AddFilter (filter);
+
+			fc.DoOverwriteConfirmation = true;
+			fc.SetCurrentFolder (svgDirectory);
+			fc.CurrentName = filenameSuggested;
+			if (fc.Run () == (int)ResponseType.Accept) {
+				using (System.IO.StreamWriter sw = new System.IO.StreamWriter (fc.Filename, false, System.Text.Encoding.UTF8)) {
+					((Table2D)table).WriteCSV (sw);
+				}
+			}
+			// remember used dir
+			svgDirectory = System.IO.Path.GetDirectoryName (fc.Filename);
+		} catch (GnuPlotException ex) {
+			ErrorMsg ("Error creating CSV file", ex.Message);
+		} catch (System.IO.IOException ex) {
+			ErrorMsg ("IO Exception", ex.Message);
+		} catch (Exception ex) {
+			// Access to path denied...
+			ErrorMsg ("Error", ex.Message);
+		} finally {
+			// Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+			if (fc != null)
+				fc.Destroy ();
+		}
 	}
 
 	#endregion UI Events
