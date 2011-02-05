@@ -20,6 +20,7 @@
 
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -431,12 +432,12 @@ namespace Subaru.Tables
 				sb.Append ('x');
 				if (multiplier != 1f) {
 					sb.Append ('*');
-					sb.Append (multiplier);
+					sb.Append (multiplier.ToString (CultureInfo.InvariantCulture));
 				}
 				if (offset != 0f) {
 					if (offset > 0f)
 						sb.Append ('+');
-					sb.Append (offset);
+					sb.Append (offset.ToString (CultureInfo.InvariantCulture));
 				}
 				return sb.ToString ();
 			}
@@ -457,14 +458,14 @@ namespace Subaru.Tables
 				if (offset != 0f) {
 					if (offset < 0f)
 						sb.Append ('+');
-					sb.Append (-offset);
+					sb.Append ((-offset).ToString (CultureInfo.InvariantCulture));
 				}
 				if (needParantheses)
 					sb.Append (')');
 
 				if (multiplier != 1f) {
 					sb.Append ('/');
-					sb.Append (multiplier);
+					sb.Append (multiplier.ToString(CultureInfo.InvariantCulture));
 				}
 				return sb.ToString ();
 			}
@@ -472,12 +473,12 @@ namespace Subaru.Tables
 
 		public static string ValuesStats (float[] values)
 		{
-			return string.Format (System.Globalization.CultureInfo.InvariantCulture, " {0} to {1} ", values.Min (), values.Max ());
+			return string.Format (CultureInfo.InvariantCulture, " {0} to {1} ", values.Min (), values.Max ());
 		}
 
 		public static string ValuesStats (float min, float max, float avg)
 		{
-			return string.Format (System.Globalization.CultureInfo.InvariantCulture, " min: {0}  max: {1}  average: {2} ", min.ToString (), max.ToString (), avg.ToString ());
+			return string.Format (CultureInfo.InvariantCulture, " min: {0}  max: {1}  average: {2} ", min.ToString (), max.ToString (), avg.ToString ());
 		}
 
 		public static XElement RRXmlScaling (string units, string expr, string to_byte, string format, float fineincrement, float coarseincrement)

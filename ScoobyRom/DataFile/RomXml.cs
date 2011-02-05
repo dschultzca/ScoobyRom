@@ -95,9 +95,8 @@ namespace Subaru.File
 			ParseXml (doc.Root);
 		}
 
-		public void TryMergeWith (IList<Table2D> toUpdate)
+		public int TryMergeWith (IList<Table2D> toUpdate)
 		{
-			// TODO improve merging intelligence, currently uses record location exclusively
 			Console.WriteLine ("Merging " + this.xml2D.Count.ToString () + " 2D XML items");
 			int count = 0;
 			foreach (Table2D table in xml2D) {
@@ -107,18 +106,28 @@ namespace Subaru.File
 				if (v > 0) {
 					found = toUpdate.Where (t => t.Location == v).FirstOrDefault ();
 				}
-				// could add further match checking
+				else {
+					v = table.RangeY.Pos;
+					found = toUpdate.Where (t => t.RangeY.Pos == v).FirstOrDefault ();
+
+					if (found == null) {
+						v = table.RangeX.Pos;
+						found = toUpdate.Where (t => t.RangeX.Pos == v).FirstOrDefault ();
+					}
+				}
+
+				// TODO add further match checking and conflict resolving
 				if (found != null) {
 					Merge (found, table);
 					++count;
 				} else
 					Console.Error.WriteLine ("Could not find this Table2D from XML: " + table.ToString ());
 			}
+			return count;
 		}
 
-		public void TryMergeWith (IList<Table3D> toUpdate)
+		public int TryMergeWith (IList<Table3D> toUpdate)
 		{
-			// TODO improve merging intelligence, currently uses record location exclusively
 			Console.WriteLine ("Merging " + this.xml3D.Count.ToString () + " 3D XML items");
 			int count = 0;
 			foreach (Table3D table in xml3D) {
@@ -128,12 +137,28 @@ namespace Subaru.File
 				if (v > 0) {
 					found = toUpdate.Where (t => t.Location == v).FirstOrDefault ();
 				}
+				else {
+					v = table.RangeZ.Pos;
+					found = toUpdate.Where (t => t.RangeZ.Pos == v).FirstOrDefault ();
+
+					if (found == null) {
+						v = table.RangeX.Pos;
+						found = toUpdate.Where (t => t.RangeX.Pos == v).FirstOrDefault ();
+
+						if (found == null) {
+							v = table.RangeY.Pos;
+							found = toUpdate.Where (t => t.RangeY.Pos == v).FirstOrDefault ();
+						}
+					}
+				}
+				// TODO add further match checking and conflict resolving
 				if (found != null) {
 					Merge (found, table);
 					++count;
 				} else
 					Console.Error.WriteLine ("Could not find this Table3D from XML: " + table.ToString ());
 			}
+			return count;
 		}
 
 		void MergeCommon (Table original, Table newTable)

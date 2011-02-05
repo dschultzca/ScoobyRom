@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoobyRom", "ScoobyRom\Scoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibScoobyRom", "LibScoobyRom\LibScoobyRom.csproj", "{FA950E69-7715-4732-AAF2-DB1D56816858}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F627BD60-497D-4BDE-B0BE-F5BB0B234368}"
+	ProjectSection(SolutionItems) = preProject
+		README.txt = README.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +24,8 @@ Global
 		{FA950E69-7715-4732-AAF2-DB1D56816858}.Debug|x86.Build.0 = Debug|Any CPU
 		{FA950E69-7715-4732-AAF2-DB1D56816858}.Release|x86.ActiveCfg = Release|Any CPU
 		{FA950E69-7715-4732-AAF2-DB1D56816858}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ScoobyRom\ScoobyRom.csproj
