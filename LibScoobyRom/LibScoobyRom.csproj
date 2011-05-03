@@ -53,6 +53,7 @@
     <Compile Include="RomChecksumRecord.cs" />
     <Compile Include="RomChecksumming.cs" />
     <Compile Include="IDA\IdcScript.cs" />
+    <Compile Include="RomType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

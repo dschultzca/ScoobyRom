@@ -21,9 +21,11 @@ Currently it can find and visualize 2D and 3D tables.
 Also it has some checksumming calculations built in.
 ROM format is supposed to be 32 bit, others may not work.
 
-ROM types tested working, all 1 MiB size type so far:
-.) Engine Control Unit (ECU): gasoline and diesel models
-.) Transmission Control Unit (TCU): Automatic Transmission (AT)
+ROM types tested working:
+.) Engine Control Unit (ECU): gasoline and diesel models,
+	SH7058 (1.0 MiB) and SH7059 based (1.5 MiB)
+.) Transmission Control Unit (TCU): Automatic Transmission
+	5AT (1.0 MiB)
 
 However you can try any file safely as it is being opened in read-only mode.
 Worst thing that can happen is the app finds nothing at all or false items only.

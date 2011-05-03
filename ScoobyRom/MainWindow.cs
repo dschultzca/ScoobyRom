@@ -582,6 +582,8 @@ public partial class MainWindow : Gtk.Window
 
 		plotExternalAction.Sensitive = sensitive;
 		createSVGFileAction.Sensitive = sensitive;
+
+		exportTableAsCSVAction.Sensitive = sensitive;
 	}
 
 	/// <summary>

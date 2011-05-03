@@ -36,24 +36,25 @@ namespace Subaru.File
 
 		string path;
 		FileStream fs;
+		RomType romType;
 		// ROM files are much smaller (couple MiB max) than 2 GiB so Int32 for pos, size etc. is sufficient
 		int startPos, lastPos;
 		int percentDoneLastReport;
 
 		public string Path {
-			get {
-				return this.path;
-			}
+			get { return this.path; }
 		}
 
 		public FileStream Stream {
-			get {
-				return this.fs;
-			}
+			get { return this.fs; }
+		}
+
+		public RomType RomType {
+			get { return this.romType; }
 		}
 
 		public RomChecksumming RomChecksumming {
-			get { return new RomChecksumming(this.fs); }
+			get { return new RomChecksumming (this.romType, this.fs); }
 		}
 
 		public Rom (string path)
@@ -65,6 +66,7 @@ namespace Subaru.File
 		void Open ()
 		{
 			fs = new FileStream (path, FileMode.Open, FileAccess.Read);
+			romType = DetectRomType (fs);
 		}
 
 		/// <summary>
@@ -90,8 +92,7 @@ namespace Subaru.File
 
 		public void Close ()
 		{
-			if (fs != null)
-			{
+			if (fs != null) {
 				fs.Dispose ();
 				fs = null;
 			}
@@ -102,12 +103,11 @@ namespace Subaru.File
 			if (ProgressChanged == null)
 				return;
 
-			float percent = 100f*(((float)pos - (float)startPos))/((float)lastPos - (float)startPos);
+			float percent = 100f * (((float)pos - (float)startPos)) / ((float)lastPos - (float)startPos);
 			int percentDone = (int)(percent);
-			if (percentDone >= percentDoneLastReport + 10)
-			{
+			if (percentDone >= percentDoneLastReport + 10) {
 				percentDoneLastReport = percentDone;
-				OnProgressChanged(percentDone);
+				OnProgressChanged (percentDone);
 			}
 		}
 
@@ -147,13 +147,10 @@ namespace Subaru.File
 				CheckProgress (pos);
 
 				Table3D info3D = Table3D.TryParseValid (this.fs);
-				if (info3D != null)
-				{
+				if (info3D != null) {
 					list3D.Add (info3D);
 					pos = fs.Position;
-				}
-				else
-				{
+				} else {
 					// not valid, try at next possible location
 					pos++;
 				}
@@ -211,5 +208,35 @@ namespace Subaru.File
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Currently only looks at size.
+		/// </summary>
+		/// <param name="stream">
+		/// A <see cref="Stream"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="RomType"/>
+		/// </returns>
+		public RomType DetectRomType (Stream stream)
+		{
+			const int KiB = 1024;
+
+			try {
+				int length = (int)stream.Length;
+				switch (length) {
+				case 512 * KiB:
+					return RomType.SH7055;
+				case 1024 * KiB:
+					return RomType.SH7058;
+				case (1024 + 512) * KiB:
+					return RomType.SH7059;
+				default:
+					return RomType.Unknown;
+				}
+			} catch (NotSupportedException) {
+				return RomType.Unknown;
+			}
+		}
 	}
 }

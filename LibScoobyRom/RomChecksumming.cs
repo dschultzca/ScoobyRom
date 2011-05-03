@@ -27,8 +27,6 @@ namespace Subaru
 {
 	public class RomChecksumming
 	{
-		// 0x007FB80 (512kB SH7055 ECUs) or 0x00FFB80 (1024kB SH7058 ECUs)
-		public const int DefaultChecksumTablePos = 0x00FFB80;
 		public const int ChecksumTableRecordCount = 17;
 		public const int ChecksumConstant = 0x5AA5A55A;
 
@@ -37,7 +35,7 @@ namespace Subaru
 		List<RomChecksumRecord> checksumRecords;
 
 
-		public RomChecksumming (System.IO.Stream stream) : this(DefaultChecksumTablePos, stream)
+		public RomChecksumming (RomType romType, System.IO.Stream stream) : this(GetTablePos (romType), stream)
 		{
 		}
 
@@ -45,6 +43,20 @@ namespace Subaru
 		{
 			this.tablePos = tablePos;
 			this.stream = stream;
+		}
+
+		public static int GetTablePos (RomType romType)
+		{
+			switch (romType) {
+			case RomType.SH7055:
+				return 0x7FB80;
+			case RomType.SH7058:
+				return 0xFFB80;
+			case RomType.SH7059:
+				return 0x17FB80;
+			default:
+				return 0;
+			}
 		}
 
 		public IList<RomChecksumRecord> ReadTableRecords ()
@@ -73,8 +85,7 @@ namespace Subaru
 		public int CalcSum (RomChecksumRecord record)
 		{
 			int sum = 0;
-			if (!record.IsEmpty)
-			{
+			if (!record.IsEmpty) {
 				stream.Seek (record.StartAddress, SeekOrigin.Begin);
 				for (int p = record.StartAddress; p < record.EndAddress; p += 4) {
 					sum += stream.ReadInt32BigEndian ();
