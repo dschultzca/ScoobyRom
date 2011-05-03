@@ -5,21 +5,13 @@ namespace ScoobyRom
 	public partial class ChecksumWindow
 	{
 		private global::Gtk.VBox vbox2;
-
 		private global::Gtk.Frame frame1;
-
 		private global::Gtk.Alignment GtkAlignment;
-
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
-
 		private global::Gtk.TreeView treeviewCSums;
-
 		private global::Gtk.Label GtkLabel;
-
 		private global::Gtk.Table table1;
-
 		private global::Gtk.Label labelCVN8;
-
 		private global::Gtk.Label labelTitleCVN8;
 
 		protected virtual void Build ()
@@ -39,7 +31,7 @@ namespace ScoobyRom
 			this.frame1.Name = "frame1";
 			this.frame1.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frame1.Gtk.Container+ContainerChild
-			this.GtkAlignment = new global::Gtk.Alignment (0f, 0f, 1f, 1f);
+			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment.Name = "GtkAlignment";
 			this.GtkAlignment.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
@@ -59,7 +51,7 @@ namespace ScoobyRom
 			this.GtkLabel.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel;
 			this.vbox2.Add (this.frame1);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame1]));
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frame1]));
 			w4.Position = 0;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
@@ -71,7 +63,7 @@ namespace ScoobyRom
 			this.labelCVN8.Name = "labelCVN8";
 			this.labelCVN8.Selectable = true;
 			this.table1.Add (this.labelCVN8);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1[this.labelCVN8]));
+			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.labelCVN8]));
 			w5.LeftAttach = ((uint)(1));
 			w5.RightAttach = ((uint)(2));
 			w5.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -81,11 +73,11 @@ namespace ScoobyRom
 			this.labelTitleCVN8.Name = "labelTitleCVN8";
 			this.labelTitleCVN8.LabelProp = global::Mono.Unix.Catalog.GetString ("CVN8:");
 			this.table1.Add (this.labelTitleCVN8);
-			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1[this.labelTitleCVN8]));
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.labelTitleCVN8]));
 			w6.XOptions = ((global::Gtk.AttachOptions)(4));
 			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.vbox2.Add (this.table1);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.table1]));
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.table1]));
 			w7.Position = 1;
 			w7.Expand = false;
 			this.Add (this.vbox2);

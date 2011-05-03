@@ -252,7 +252,10 @@ namespace ScoobyRom
 		}
 
 		protected int CursorColNr {
-			get { return columnsDict[CursorColumn]; }
+			get {
+				TreeViewColumn column = CursorColumn;
+				return column != null ? columnsDict[CursorColumn] : 0;
+			}
 		}
 
 	}
