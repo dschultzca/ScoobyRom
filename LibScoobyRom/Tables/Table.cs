@@ -17,8 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with ScoobyRom.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 using System;
 using System.Globalization;
 using System.Linq;
@@ -34,23 +32,54 @@ namespace Subaru.Tables
 	/// </summary>
 	public abstract class Table
 	{
+		// Axis item count restrictions. Count < 2 or high does not make sense.
+		// This restriction helps avoiding false positives.
 		public const int CountMin = 2;
 		public const int CountMax = 255;
 
-		// HACK depends on file size
-		public const int PosMax = 1024 * 1024;
-		public const int PosMin = 1024;
+		// All 2D- and 3D-Table structs contain pointers. If a pointer points to a rather odd position,
+		// the suggested table struct will be discarded. This restriction helps avoiding false positives.
+		static protected int posMax = (1024 + 512) * 1024;
+		static protected int posMin = 8 * 1024;
+
+		/// <summary>
+		/// Gets or sets the pointer maximum, improving table detection.
+		/// Set to maximum expected pointer position or file size if in doubt.
+		/// </summary>
+		/// <value>
+		/// The position max.
+		/// </value>
+		public static int PosMax {
+			get {
+				return posMax;
+			}
+			set {
+				posMax = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the pointer minimum, improving table detection.
+		/// Set to minimum expected position or 0 if in doubt.
+		/// </summary>
+		/// <value>
+		/// The position minimum.
+		/// </value>
+		public static int PosMin {
+			get {
+				return posMin;
+			}
+			set {
+				posMin = value;
+			}
+		}
 
 		public const int FloatSize = 4;
 
 		// floats like x.xxxxxxxxE-40 etc. suggest these are invalid, not to be included
 		public const float FloatMin = (float)1E-12;
 		public const float FloatMax = (float)1E+12;
-
 		public static string endian = "big";
-
-
-
 		#region Fields
 
 		protected int countX;
@@ -90,12 +119,12 @@ namespace Subaru.Tables
 
 		// valid object has increasing axis values
 		public float Xmin {
-			get { return valuesX != null ? valuesX[0] : float.NaN; }
+			get { return valuesX != null ? valuesX [0] : float.NaN; }
 		}
 
 		// valid object has increasing axis values
 		public float Xmax {
-			get { return valuesX != null ? valuesX[this.valuesX.Length - 1] : float.NaN; }
+			get { return valuesX != null ? valuesX [this.valuesX.Length - 1] : float.NaN; }
 		}
 
 		/// <summary>
@@ -122,6 +151,7 @@ namespace Subaru.Tables
 			get { return multiplier; }
 			set { multiplier = value; }
 		}
+
 		public float Offset {
 			get { return offset; }
 			set { offset = value; }
@@ -175,21 +205,25 @@ namespace Subaru.Tables
 			offset = float.NaN;
 		}
 
-		public abstract bool IsRecordValid ();
-		public abstract bool ReadValidateValues (System.IO.Stream stream);
-		public abstract void ChangeTypeToAndReload (TableType newType, System.IO.Stream stream);
+		public abstract bool IsRecordValid ()
+
+;
+		public abstract bool ReadValidateValues (System.IO.Stream stream)
+
+;
+		public abstract void ChangeTypeToAndReload (TableType newType, System.IO.Stream stream)
+
+;
 		public abstract XElement RRXml ();
 
 		public bool HasMetadata {
 			get { return !string.IsNullOrEmpty (title) || !string.IsNullOrEmpty (category) || !string.IsNullOrEmpty (description) || !string.IsNullOrEmpty (nameX) || !string.IsNullOrEmpty (unitX); }
 		}
 
-
 		protected static void ThrowInvalidTableType (TableType tableType)
 		{
 			throw new ArgumentOutOfRangeException ("Invalid TableType: " + tableType.ToString ());
 		}
-
 
 		#region ReadValues
 
@@ -220,7 +254,7 @@ namespace Subaru.Tables
 			float[] array = new float[count];
 
 			for (int i = 0; i < array.Length; i++) {
-				array[i] = stream.ReadSingleBigEndian ();
+				array [i] = stream.ReadSingleBigEndian ();
 			}
 			return array;
 		}
@@ -244,7 +278,7 @@ namespace Subaru.Tables
 			// Array.Copy won't work with different Array types like byte[] and sbyte[]
 			sbyte[] array = new sbyte[buf.Length];
 			for (int i = 0; i < array.Length; i++) {
-				array[i] = (sbyte)buf[i];
+				array [i] = (sbyte)buf [i];
 			}
 			return array;
 		}
@@ -256,7 +290,7 @@ namespace Subaru.Tables
 			ushort[] array = new ushort[count];
 
 			for (int i = 0; i < array.Length; i++) {
-				array[i] = (ushort)stream.ReadInt16BigEndian ();
+				array [i] = (ushort)stream.ReadInt16BigEndian ();
 			}
 			return array;
 		}
@@ -268,7 +302,7 @@ namespace Subaru.Tables
 			short[] array = new short[count];
 
 			for (int i = 0; i < array.Length; i++) {
-				array[i] = stream.ReadInt16BigEndian ();
+				array [i] = stream.ReadInt16BigEndian ();
 			}
 			return array;
 		}
@@ -301,7 +335,7 @@ namespace Subaru.Tables
 				// not all valid axis have strictly increasing values!!!
 				// Ex: MAF-Sensor has a duplicate point (X[32] == X[33] incl. corresponding Y-values)
 				// had to relaxe original condition: if (floats[i - 1] >= floats[i])
-				if (floats[i - 1] > floats[i])
+				if (floats [i - 1] > floats [i])
 					return false;
 			}
 			return true;
@@ -310,7 +344,7 @@ namespace Subaru.Tables
 		public static bool CheckFloatArray (float[] floats)
 		{
 			for (int i = 0; i < floats.Length; i++) {
-				if (!IsFloatValid (floats[i]))
+				if (!IsFloatValid (floats [i]))
 					return false;
 			}
 			return true;
@@ -343,11 +377,11 @@ namespace Subaru.Tables
 			var floats = new float[srcFloat.Length];
 			if (hasMAC) {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = srcFloat[i] * multiplier + offset;
+					floats [i] = srcFloat [i] * multiplier + offset;
 				}
 			} else {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = srcFloat[i];
+					floats [i] = srcFloat [i];
 				}
 			}
 			return floats;
@@ -359,11 +393,11 @@ namespace Subaru.Tables
 			var floats = new float[srcUInt8.Length];
 			if (hasMAC) {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = srcUInt8[i] * multiplier + offset;
+					floats [i] = srcUInt8 [i] * multiplier + offset;
 				}
 			} else {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = srcUInt8[i];
+					floats [i] = srcUInt8 [i];
 				}
 			}
 			return floats;
@@ -375,11 +409,11 @@ namespace Subaru.Tables
 			var floats = new float[src.Length];
 			if (hasMAC) {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = src[i] * multiplier + offset;
+					floats [i] = src [i] * multiplier + offset;
 				}
 			} else {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = src[i];
+					floats [i] = src [i];
 				}
 			}
 			return floats;
@@ -391,11 +425,11 @@ namespace Subaru.Tables
 			var floats = new float[src.Length];
 			if (hasMAC) {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = src[i] * multiplier + offset;
+					floats [i] = src [i] * multiplier + offset;
 				}
 			} else {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = src[i];
+					floats [i] = src [i];
 				}
 			}
 			return floats;
@@ -407,11 +441,11 @@ namespace Subaru.Tables
 			var floats = new float[src.Length];
 			if (hasMAC) {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = src[i] * multiplier + offset;
+					floats [i] = src [i] * multiplier + offset;
 				}
 			} else {
 				for (int i = 0; i < floats.Length; i++) {
-					floats[i] = src[i];
+					floats [i] = src [i];
 				}
 			}
 			return floats;
@@ -465,7 +499,7 @@ namespace Subaru.Tables
 
 				if (multiplier != 1f) {
 					sb.Append ('/');
-					sb.Append (multiplier.ToString(CultureInfo.InvariantCulture));
+					sb.Append (multiplier.ToString (CultureInfo.InvariantCulture));
 				}
 				return sb.ToString ();
 			}

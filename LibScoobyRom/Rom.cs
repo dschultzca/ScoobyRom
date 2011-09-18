@@ -17,8 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with ScoobyRom.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -119,6 +117,7 @@ namespace Subaru.File
 				ProgressChanged (this, new ProgressChangedEventArgs (percentDone, null));
 		}
 
+		/*
 		public IList<Table3D> FindMaps3D ()
 		{
 			return FindMaps3D (0);
@@ -158,6 +157,7 @@ namespace Subaru.File
 			OnProgressChanged (100);
 			return list3D;
 		}
+		*/
 
 		public void FindMaps (int startPos, int lastPos, out IList<Table2D> list2D, out IList<Table3D> list3D)
 		{
@@ -165,9 +165,14 @@ namespace Subaru.File
 			lastPos = Math.Min (lastPos, (int)fs.Length);
 			this.lastPos = lastPos;
 
-			// default capacities suitable for MY10 diesel ROMs
-			list2D = new List<Table2D> (600);
-			list3D = new List<Table3D> (800);
+			// Restricting pointers to a range can improve detection accuracy.
+			// Using conservative settings here:
+			Table.PosMin = 8 * 1024;
+			Table.PosMax = (int)fs.Length - 1;
+
+			// default capacities suitable for SH7059 diesel ROMs
+			list2D = new List<Table2D> (800);
+			list3D = new List<Table3D> (1000);
 
 			OnProgressChanged (0);
 			this.percentDoneLastReport = 0;
@@ -179,6 +184,7 @@ namespace Subaru.File
 				fs.Position = pos;
 				CheckProgress (pos);
 
+				// try Table3D first as it contains more struct info; more info to validate = better detection
 				Table3D info3D = Table3D.TryParseValid (this.fs);
 				if (info3D != null) {
 					list3D.Add (info3D);

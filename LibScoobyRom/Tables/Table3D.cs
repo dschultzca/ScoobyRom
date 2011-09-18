@@ -228,9 +228,9 @@ namespace Subaru.Tables
 			if (!tableType.IsValid ())
 				return false;
 
-			if (rangeX.Pos > PosMax || rangeY.Pos > PosMax || rangeZ.Pos > PosMax)
+			if (rangeX.Pos > posMax || rangeY.Pos > posMax || rangeZ.Pos > posMax)
 				return false;
-			if (rangeX.Pos < PosMin || rangeY.Pos < PosMin || rangeZ.Pos < PosMin)
+			if (rangeX.Pos < posMin || rangeY.Pos < posMin || rangeZ.Pos < posMin)
 				return false;
 			if (rangeX.Pos == rangeY.Pos || rangeX.Pos == rangeZ.Pos || rangeY.Pos == rangeZ.Pos)
 				return false;

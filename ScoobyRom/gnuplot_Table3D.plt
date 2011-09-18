@@ -88,7 +88,7 @@ splot "gnuplot_data.tmp" binary volatile title "" with pm3d
 
 
 # -------- SVG output (commands sent via standard input from app)
-#ä could also do PDF, LaTeX, PNG etc.
+# could also do PDF, LaTeX, PNG etc.
 ## remember current terminal
 # set terminal push
 # set terminal svg size 1200,800 dynamic enhanced font "sans,16"

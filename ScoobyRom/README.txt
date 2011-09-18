@@ -78,7 +78,8 @@ git clone http://github.com/SubaruDieselCrew/ScoobyRom.git
 
 
 .) Getting source files as archive download
-Not prepared yet!
+See links at bottom of this page, automatically prepared by github:
+https://github.com/SubaruDieselCrew/ScoobyRom/downloads
 
 
 .) Compilation
@@ -108,7 +109,7 @@ Tested working:
 	Another link: Microsoft .NET Framework Developer Center
 	http://msdn.microsoft.com/en-us/netframework/default.aspx
 
-.) Mono 2.8.x (on Linux)
+.) Mono (tested v2.8+, on Linux)
 	free open source, multi-platfrom
 	http://www.mono-project.com/
 
@@ -129,7 +130,7 @@ It's called "Gtk# for .NET", you may not need the others (Mono).
 
 Windows
 -------
-Latest version:
+Tested version:
 gtk-sharp-2.12.10.win32.msi (15.7 MiB)
 
 Experimental Gtk+ x64 versions have not been tested yet!
@@ -177,7 +178,7 @@ gnuplot installation on Windows
 -------------------------------
 1) Windows binaries:
 http://sourceforge.net/projects/gnuplot/files/
-gp442win32.zip (9.4 MiB)
+latest tested: gp443win32.zip (10.1 MiB)
 
 2) Extract the ZIP file somewhere (ex. "C:\"),
 it should place all files under main subdirectory "gnuplot" from there.
@@ -386,8 +387,8 @@ Displaying a complicated file can take seconds depending on viewer program and c
 
 SVGs should be viewable in modern browsers like
 Mozilla Firefox	http://www.mozilla.org/products/firefox/
-Opera	http://www.opera.com/
-Internet Explorer 9 (currently beta)	http://ie.microsoft.com/testdrive/
+Opera		http://www.opera.com/
+Internet Explorer 9		http://ie.microsoft.com/
 ...
 various graphic viewers and vector graphics editors.
 

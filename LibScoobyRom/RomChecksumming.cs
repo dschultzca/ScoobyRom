@@ -99,10 +99,9 @@ namespace Subaru
 			return ChecksumConstant - CalcSum (record);
 		}
 
-		public bool Check (RomChecksumRecord record)
+		public bool IsValid (RomChecksumRecord record)
 		{
-			int sum = CalcSum (record);
-			return (ChecksumConstant - sum) == record.Checksum;
+			return CalcChecksumValue (record) == record.Checksum;
 		}
 
 		/// <summary>

@@ -157,7 +157,7 @@ namespace Subaru.Tables
 			//				tableType = TableType.UInt8;
 
 
-			if (rangeX.Pos > PosMax || rangeX.Pos < PosMin || rangeY.Pos > PosMax || rangeY.Pos < PosMin || rangeX.Pos == rangeY.Pos)
+			if (rangeX.Pos > posMax || rangeX.Pos < posMin || rangeY.Pos > posMax || rangeY.Pos < posMin || rangeX.Pos == rangeY.Pos)
 				return false;
 
 			// range checking eliminates a few bad candidates

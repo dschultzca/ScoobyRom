@@ -206,10 +206,19 @@ public partial class MainWindow : Gtk.Window
 		tableUI.TitleMarkup = GtkWidgets.TableWidget.MakeTitleMarkup (table.Title, table.UnitZ);
 		tableUI.AxisMarkupX = GtkWidgets.TableWidget.MakeMarkup (table.NameX, table.UnitX);
 		tableUI.AxisMarkupY = GtkWidgets.TableWidget.MakeMarkup (table.NameY, table.UnitY);
-		// HACK FormatValues
-		tableUI.FormatValues = table.Zmax < 30 ? "0.00" : "0.0";
-		if (table.Zmax < 10)
-			tableUI.FormatValues = "0.000";
+
+		// HACK FormatValues, no good digits algorithm yet
+		int digits = ScoobyRom.Data.AutomaticMinDigits(valuesZ);
+		if (digits <= 3)
+		{
+			tableUI.FormatValues = ScoobyRom.Data.ValueFormat(digits);
+		}
+		else{
+			tableUI.FormatValues = table.Zmax < 30 ? "0.00" : "0.0";
+			if (table.Zmax < 10)
+				tableUI.FormatValues = "0.000";
+		}
+
 
 		// Viewport needed for ScrolledWindow to work as generated table widget has no scroll support
 		var viewPort = new Gtk.Viewport ();

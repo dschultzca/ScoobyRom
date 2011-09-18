@@ -196,5 +196,35 @@ namespace ScoobyRom
 			}
 		}
 
+		public static int AutomaticMinDigits (float[] values)
+		{
+			const int MaxDecimals = 8;
+
+			int digits = 0;
+			do {
+				bool found = true;
+				for (int i = 0; i < values.Length; i++) {
+					float value = values[i];
+					float rounded = (float)Math.Round (value, digits);
+					if (Math.Abs(value - rounded) > float.Epsilon)
+					{
+						++digits;
+						found = false;
+						break;
+					}
+				}
+				if (found)
+					break;
+			}
+			while (digits <= MaxDecimals);
+			return digits;
+		}
+
+		public static string ValueFormat (int decimals)
+		{
+			if (decimals < 1)
+				return "0";
+			return "0." + new string('0', decimals);
+		}
 	}
 }
